@@ -12,9 +12,13 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xAxis = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float zAxis = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        float xAxis = Input.GetAxis("Horizontal");
+        float zAxis = Input.GetAxis("Vertical");
 
-        transform.Translate(xAxis, 0, zAxis);
+        Vector3 Movement = new Vector3(xAxis, 0, zAxis);
+        Vector3 trueMovement = Vector3.ClampMagnitude(Movement, 1);
+
+        transform.Translate(trueMovement * speed * Time.deltaTime);
+        Debug.Log(trueMovement.magnitude);
     }
 }
