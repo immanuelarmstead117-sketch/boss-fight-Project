@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
+    public Rigidbody rb;
     float speed = 5f;
+    Vector3 Direction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,13 +14,14 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xAxis = Input.GetAxis("Horizontal");
-        float zAxis = Input.GetAxis("Vertical");
+      Direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+    }
 
-        Vector3 Movement = new Vector3(xAxis, 0, zAxis);
-        Vector3 trueMovement = Vector3.ClampMagnitude(Movement, 1);
+    void FixedUpdate()
+    {
+      Vector3 trueMovement = Vector3.ClampMagnitude(Direction, 1);
 
-        transform.Translate(trueMovement * speed * Time.deltaTime);
-        Debug.Log(trueMovement.magnitude);
+      rb.linearVelocity = new Vector3(trueMovement.x * speed, rb.linearVelocity.y, trueMovement.z * speed);
+     
     }
 }
